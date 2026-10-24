@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "BBAN السودان - محول أرقام الحسابات البنكية السودانية",
+  "short_name": "BBAN السودان",
+  "description": "تطبيق محلي وسريع لتحويل أرقام الحسابات البنكية السودانية إلى صيغة BBAN بشكل آمن ودون الحاجة لاتصال بالإنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0A192F",
+  "background_color": "#F8FAFC",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

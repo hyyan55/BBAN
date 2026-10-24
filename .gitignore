@@ -1,0 +1,7 @@
+node_modules
+dist
+dev-dist
+bun.lock
+.DS_Store
+*.local
+.env

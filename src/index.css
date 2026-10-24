@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-arabic: system-ui, -apple-system, "Segoe UI", Tahoma, "Geeza Pro", "DejaVu Sans", sans-serif;
+    --font-mono-num: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  html {
+    font-family: var(--font-arabic);
+    direction: rtl;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-arabic);
+    overflow-x: hidden;
+  }
+}
+
+.font-mono-bban {
+  font-family: var(--font-mono-num);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

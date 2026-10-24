@@ -1,0 +1,8 @@
+{
+  "name": "محول رقم الحساب السوداني",
+  "description": "تطبيق محلي وسريع لتحويل أرقام الحسابات البنكية السودانية إلى صيغة BBAN بشكل آمن ودون الحاجة لاتصال بالإنترنت.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
