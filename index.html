@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <script>
+      // Early guard to prevent background Firebase installation errors from triggering fatal UI errors
+      window.addEventListener('unhandledrejection', function(event) {
+        var reason = event && event.reason;
+        var msg = (reason && (reason.message || reason.toString())) || '';
+        if (msg.indexOf('installations/') !== -1 || msg.indexOf('API key not valid') !== -1 || msg.indexOf('FirebaseError') !== -1) {
+          console.warn('[BBAN Analytics] Handled background service error gracefully:', msg);
+          event.preventDefault();
+        }
+      });
+    </script>
     <title>محول رقم الحساب السوداني | BBAN السودان</title>
     <meta name="description" content="تطبيق محلي وسريع لتحويل أرقام الحسابات البنكية السودانية إلى صيغة BBAN بشكل آمن ودون الحاجة لاتصال بالإنترنت." />
     <meta property="og:title" content="محول رقم الحساب السوداني | BBAN السودان" />
@@ -15,8 +26,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="BBAN السودان" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/pwa-512x512.png" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="apple-touch-icon" href="/icon.svg" />
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-900 selection:text-white dark:bg-slate-950 dark:text-slate-100">
     <div id="root"></div>

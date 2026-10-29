@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AboutDeveloperSection } from './components/AboutDeveloperSection';
 import { BanksReferenceSection } from './components/BanksReferenceSection';
 import { ConverterCard } from './components/ConverterCard';
@@ -7,9 +7,17 @@ import { Header } from './components/Header';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { PrivacyAndDisclaimer } from './components/PrivacyAndDisclaimer';
 import { useTheme } from './hooks/useTheme';
+import { trackUserSession } from './services/analytics';
 
 export function App() {
   const { isDark, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    // Record user session, DAU/MAU, new vs returning users, and sync pending offline events
+    trackUserSession().catch((err) => {
+      console.warn('[BBAN Analytics] Session tracking error:', err);
+    });
+  }, []);
 
   return (
     <div

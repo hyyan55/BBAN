@@ -9,6 +9,7 @@ import {
 } from '../utils/bban';
 import { BankSelector } from './BankSelector';
 import { ResultCard } from './ResultCard';
+import { trackBBANConversion } from '../services/analytics';
 
 const LAST_BANK_STORAGE_KEY = 'sudan_bban_last_bank_id';
 
@@ -101,6 +102,15 @@ export const ConverterCard: React.FC = () => {
     setError(null);
     setHint(undefined);
     setResult(conversion);
+
+    if (selectedBank) {
+      trackBBANConversion({
+        bankId: selectedBank.id,
+        bankName: selectedBank.name,
+        accountLength: cleanedAccount.length,
+        hasSuffix: Boolean(selectedBank.suffix),
+      });
+    }
   };
 
   const handleClear = () => {
