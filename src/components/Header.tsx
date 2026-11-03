@@ -16,7 +16,12 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onToggleTheme }) => {
           href="#converter"
           className="text-base sm:text-lg font-extrabold tracking-tight text-blue-950 dark:text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 rounded-md"
         >
-          BBAN السودان
+          <img
+            src="/bban-logo.png"
+            alt="شعار بيبان السودان"
+            className="h-9 w-9 object-contain rounded-lg"
+          />
+          <span>BBAN السودان</span>
         </a>
 
         {/* Zone 2: Clean text navigation links */}

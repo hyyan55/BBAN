@@ -43,7 +43,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Allow external API requests (e.g. Firebase, Analytics) to pass through naturally
+  // Allow external requests to pass through without interception.
   if (url.origin !== self.location.origin) {
     return;
   }
