@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bban-sd.pages.dev/sitemap.xml
