@@ -1,6 +1,21 @@
 import React from 'react';
+import { Browser } from '@capacitor/browser';
 
 export const Footer: React.FC = () => {
+  const openPrivacyPolicy = async () => {
+    try {
+      await Browser.open({
+        url: 'https://bban-sd.pages.dev/privacy-policy/',
+      });
+    } catch (error) {
+      window.open(
+        'https://bban-sd.pages.dev/privacy-policy/',
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+  };
+
   return (
     <footer className="mt-10 pb-8 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 text-center">
       <div className="max-w-3xl mx-auto px-4 space-y-2">
@@ -15,12 +30,13 @@ export const Footer: React.FC = () => {
           © 2026 Hayyan Mohamed
         </p>
 
-        <a
-          href="/privacy-policy/"
+        <button
+          type="button"
+          onClick={openPrivacyPolicy}
           className="inline-block text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
         >
           Privacy Policy | سياسة الخصوصية
-        </a>
+        </button>
       </div>
     </footer>
   );

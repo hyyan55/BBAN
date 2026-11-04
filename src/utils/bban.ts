@@ -5,6 +5,7 @@ export const VALIDATION_MESSAGES = {
   ACCOUNT_REQUIRED: 'يرجى إدخال رقم الحساب.',
   DIGITS_ONLY: 'رقم الحساب يجب أن يحتوي على أرقام فقط.',
   INVALID_ACCOUNT_FOR_BANK: 'رقم الحساب غير صحيح لهذا البنك.',
+  BBAN_INVALID_LENGTH: 'تعذر تكوين رقم BBAN صحيح لهذا البنك.',
   COPY_FAILED: 'تعذر نسخ الرقم، حاول مرة أخرى.',
   COPY_SUCCESS: 'تم نسخ BBAN إلى الحافظة ✓',
 } as const;
@@ -146,6 +147,17 @@ export function convertToBBAN(
   const account = validation.normalizedAccount;
   const suffix = bank.suffix ?? '';
   const finalBBAN = `${prefix}${account}${suffix}`;
+
+  // حماية نهائية: يجب أن يتكون BBAN من 14 رقماً بالضبط.
+  if (!/^[0-9]{14}$/.test(finalBBAN)) {
+    return {
+      success: false,
+      bban: '',
+      normalizedAccount: account,
+      error: VALIDATION_MESSAGES.BBAN_INVALID_LENGTH,
+      hint: 'يجب أن يتكون رقم BBAN النهائي من 14 رقماً.',
+    };
+  }
 
   return {
     success: true,

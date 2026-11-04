@@ -1,9 +1,17 @@
-import { banks, BankConfig } from '../data/banks';
+import { banks } from '../data/banks';
 import { convertToBBAN, VALIDATION_MESSAGES } from './bban';
 
 function assertEqual(actual: unknown, expected: unknown, message: string) {
   if (actual !== expected) {
-    throw new Error(`[Test Failed] ${message}: expected "${expected}", got "${actual}"`);
+    throw new Error(
+      `[Test Failed] ${message}: expected "${expected}", got "${actual}"`
+    );
+  }
+}
+
+function assertTrue(condition: boolean, message: string) {
+  if (!condition) {
+    throw new Error(`[Test Failed] ${message}`);
   }
 }
 
@@ -17,95 +25,111 @@ export function runInternalBBANTests(): { passed: number; total: number } {
     passed += 1;
   };
 
-  const bok = banks[0];
-  const bnmb = banks[3];
+  const expectedBanks = [
+    { id: 'bok', prefix: '040', length: 7, suffix: '0001' },
+    { id: 'onb', prefix: '240', length: 6, suffix: '00001' },
+    { id: 'fib', prefix: '02', length: 8, suffix: '0001' },
+    { id: 'bnmb', prefix: '150000', length: 8, suffix: '' },
+    { id: 'sib', prefix: '14000', length: 4, suffix: '00001' },
+    { id: 'fcb', prefix: '222', length: 11, suffix: '' },
+    { id: 'sfb', prefix: '110', length: 6, suffix: '00001' },
+    { id: 'abs', prefix: '03', length: 7, suffix: '01001' },
+    { id: 'alsalam', prefix: '180', length: 6, suffix: '00001' },
+    { id: 'albaraka', prefix: '070', length: 6, suffix: '00001' },
+  ];
 
   check(() => {
-    const res = convertToBBAN(null, '1234567');
-    assertEqual(res.success, false, 'Empty bank should fail');
-    assertEqual(res.error, VALIDATION_MESSAGES.BANK_REQUIRED, 'Empty bank error message');
+    assertEqual(banks.length, 10, 'Exactly 10 banks must exist');
   });
 
-  check(() => {
-    const res = convertToBBAN(bok, '');
-    assertEqual(res.success, false, 'Empty account should fail');
-    assertEqual(res.error, VALIDATION_MESSAGES.ACCOUNT_REQUIRED, 'Empty account error message');
-  });
+  expectedBanks.forEach((expected) => {
+    const bank = banks.find((item) => item.id === expected.id);
 
-  check(() => {
-    const res = convertToBBAN(bok, '1234abc567');
-    assertEqual(res.success, false, 'Letters should fail');
-    assertEqual(res.error, VALIDATION_MESSAGES.DIGITS_ONLY, 'Letters error message');
-  });
+    check(() => {
+      assertTrue(!!bank, `Bank ${expected.id} must exist`);
+      assertEqual(bank!.prefix, expected.prefix, `${expected.id} prefix`);
+      assertEqual(bank!.suffix, expected.suffix, `${expected.id} suffix`);
+      assertEqual(bank!.accountLength, expected.length, `${expected.id} account length`);
+      assertEqual(bank!.minAccountLength, expected.length, `${expected.id} minimum length`);
+      assertEqual(bank!.maxAccountLength, expected.length, `${expected.id} maximum length`);
+    });
 
-  check(() => {
-    const res = convertToBBAN(bok, '     ');
-    assertEqual(res.success, false, 'Only spaces should fail');
-    assertEqual(res.error, VALIDATION_MESSAGES.ACCOUNT_REQUIRED, 'Only spaces error message');
-  });
+    const account = '12345678901'.slice(0, expected.length);
+    const expectedBBAN = `${expected.prefix}${account}${expected.suffix}`;
 
-  check(() => {
-    const res = convertToBBAN(bok, ' 1234 567 ');
-    assertEqual(res.success, true, 'Pasted numbers with spaces should succeed');
-    assertEqual(res.bban, '04012345670001', 'BOK BBAN with spaces removed');
-  });
+    check(() => {
+      const result = convertToBBAN(bank!, account);
 
-  check(() => {
-    const customBank: BankConfig = {
-      ...bok,
-      accountLength: 7,
-    };
-    const res = convertToBBAN(customBank, '123456');
-    assertEqual(res.success, false, 'Exact length mismatch should fail');
-    assertEqual(
-      res.error,
-      VALIDATION_MESSAGES.INVALID_ACCOUNT_FOR_BANK,
-      'Exact length mismatch error message'
-    );
-  });
+      assertEqual(result.success, true, `${expected.id} valid conversion`);
+      assertEqual(result.bban, expectedBBAN, `${expected.id} BBAN output`);
+      assertEqual(result.bban.length, 14, `${expected.id} BBAN must have 14 digits`);
+      assertTrue(/^[0-9]{14}$/.test(result.bban), `${expected.id} BBAN digits`);
+    });
 
-  check(() => {
-    const expectedFormats = [
-      { name: 'بنك الخرطوم', bban: '04012345670001' },
-      { name: 'بنك أم درمان الوطني', bban: '240123456700001' },
-      { name: 'بنك فيصل الإسلامي', bban: '0212345670001' },
-      { name: 'بنك النيل الأزرق', bban: '1500001234567' },
-      { name: 'البنك الإسلامي السوداني', bban: '14000123456700001' },
-      { name: 'بنك المزارع التجاري', bban: '2221234567' },
-      { name: 'البنك الفرنسي السوداني', bban: '110123456700001' },
-      { name: 'البنك الزراعي السوداني', bban: '03123456701001' },
-      { name: 'بنك السلام السوداني', bban: '180123456700001' },
-      { name: 'بنك البركة السوداني', bban: '070123456700001' },
-    ];
+    check(() => {
+      const result = convertToBBAN(bank!, account.slice(1));
 
-    assertEqual(banks.length, 10, 'Must have exactly 10 banks');
-    expectedFormats.forEach((item, index) => {
-      const bank = banks[index];
-      assertEqual(bank.name, item.name, `Bank order at index ${index}`);
-      const conv = convertToBBAN(bank, '1234567');
-      assertEqual(conv.success, true, `Conversion for ${bank.name}`);
-      assertEqual(conv.bban, item.bban, `BBAN output for ${bank.name}`);
+      assertEqual(result.success, false, `${expected.id} shorter account must fail`);
+      assertEqual(
+        result.error,
+        VALIDATION_MESSAGES.INVALID_ACCOUNT_FOR_BANK,
+        `${expected.id} shorter account error`
+      );
+    });
+
+    check(() => {
+      const result = convertToBBAN(bank!, account + '1');
+
+      assertEqual(result.success, false, `${expected.id} longer account must fail`);
+      assertEqual(
+        result.error,
+        VALIDATION_MESSAGES.INVALID_ACCOUNT_FOR_BANK,
+        `${expected.id} longer account error`
+      );
     });
   });
 
+  const bok = banks.find((bank) => bank.id === 'bok')!;
+
   check(() => {
-    const res = convertToBBAN(bok, '1234567890123456789012345');
-    assertEqual(res.success, false, 'Very long input should fail');
-    assertEqual(
-      res.error,
-      VALIDATION_MESSAGES.INVALID_ACCOUNT_FOR_BANK,
-      'Very long input error message'
-    );
+    const result = convertToBBAN(null, '1234567');
+    assertEqual(result.success, false, 'Missing bank must fail');
+    assertEqual(result.error, VALIDATION_MESSAGES.BANK_REQUIRED, 'Missing bank error');
   });
 
   check(() => {
-    const res = convertToBBAN(bnmb, '12');
-    assertEqual(res.success, false, 'Very short input should fail');
-    assertEqual(
-      res.error,
-      VALIDATION_MESSAGES.INVALID_ACCOUNT_FOR_BANK,
-      'Very short input error message'
-    );
+    const result = convertToBBAN(bok, '');
+    assertEqual(result.success, false, 'Empty account must fail');
+    assertEqual(result.error, VALIDATION_MESSAGES.ACCOUNT_REQUIRED, 'Empty account error');
+  });
+
+  check(() => {
+    const result = convertToBBAN(bok, '1234abc');
+    assertEqual(result.success, false, 'Letters must fail');
+    assertEqual(result.error, VALIDATION_MESSAGES.DIGITS_ONLY, 'Letters error');
+  });
+
+  check(() => {
+    const result = convertToBBAN(bok, '١٢٣٤٥٦٧');
+    assertEqual(result.success, false, 'Arabic digits must fail');
+    assertEqual(result.error, VALIDATION_MESSAGES.DIGITS_ONLY, 'Arabic digits error');
+  });
+
+  check(() => {
+    const result = convertToBBAN(bok, '0000000');
+    assertEqual(result.success, false, 'All-zero account must fail');
+  });
+
+  check(() => {
+    const result = convertToBBAN(bok, ' 1234 567 ');
+    assertEqual(result.success, true, 'Spaces should be removed');
+    assertEqual(result.bban, '04012345670001', 'BOK conversion with spaces');
+  });
+
+  check(() => {
+    const result = convertToBBAN(bok, '       ');
+    assertEqual(result.success, false, 'Spaces only must fail');
+    assertEqual(result.error, VALIDATION_MESSAGES.ACCOUNT_REQUIRED, 'Spaces-only error');
   });
 
   return { passed, total };
