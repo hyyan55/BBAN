@@ -45,6 +45,13 @@ export function App() {
             <p className="mt-1 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300">
               محول أرقام الحسابات البنكية السودانية
             </p>
+            <a
+              href="https://bban-sd.pages.dev/what-is-bban/"
+              className="mt-2 inline-flex text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline underline-offset-4"
+              aria-label="ما هو BBAN؟ وكيف أستخدمه؟"
+            >
+              ما هو BBAN؟ وكيف أستخدمه؟ ←
+            </a>
           </div>
         </div>
 
