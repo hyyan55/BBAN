@@ -1,5 +1,6 @@
 import React from 'react';
 import { AboutDeveloperSection } from './components/AboutDeveloperSection';
+import { BBANIntroSection } from './components/BBANIntroSection';
 import { BanksReferenceSection } from './components/BanksReferenceSection';
 import { ConverterCard } from './components/ConverterCard';
 import { Footer } from './components/Footer';
@@ -40,10 +41,10 @@ export function App() {
 
           <div className="min-w-0">
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-              BBAN السودان
+              محول BBAN السودان
             </h1>
             <p className="mt-1 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300">
-              محول أرقام الحسابات البنكية السودانية
+              تحويل رقم الحساب البنكي السوداني إلى صيغة BBAN
             </p>
             <a
               href="https://bban-sd.pages.dev/what-is-bban/"
@@ -56,6 +57,7 @@ export function App() {
         </div>
 
         <ConverterCard />
+        <BBANIntroSection />
         <PrivacyAndDisclaimer />
         <BanksReferenceSection />
         <AboutDeveloperSection />
