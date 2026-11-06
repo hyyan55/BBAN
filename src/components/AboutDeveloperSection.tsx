@@ -19,7 +19,7 @@ export const AboutDeveloperSection: React.FC = () => {
             المبرمج حيان محمد
           </p>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            حيان محمد · Developed by Hayyan Mohamed
+            حيان محمد · Developed by Hayyan Mohammed
           </p>
         </div>
 
