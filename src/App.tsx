@@ -1,7 +1,6 @@
 import React from 'react';
 import { AboutDeveloperSection } from './components/AboutDeveloperSection';
 import { BBANIntroSection } from './components/BBANIntroSection';
-import { BanksReferenceSection } from './components/BanksReferenceSection';
 import { ConverterCard } from './components/ConverterCard';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
@@ -59,7 +58,6 @@ export function App() {
         <ConverterCard />
         <BBANIntroSection />
         <PrivacyAndDisclaimer />
-        <BanksReferenceSection />
         <AboutDeveloperSection />
       </main>
 
