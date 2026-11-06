@@ -87,7 +87,7 @@ export const BankSelector: React.FC<BankSelectorProps> = ({
           {selectedBank ? (
             <div className="min-w-0">
               <div className="text-base font-bold text-slate-900 dark:text-white truncate">
-                {selectedBank.name}
+                {selectedBank.name} — {selectedBank.appName}
               </div>
               <div
                 dir="ltr"
@@ -98,7 +98,7 @@ export const BankSelector: React.FC<BankSelectorProps> = ({
             </div>
           ) : (
             <span className="text-base text-slate-500 dark:text-slate-400 font-medium truncate">
-              اختر البنك من القائمة...
+              اختر البنك
             </span>
           )}
         </div>
@@ -148,7 +148,7 @@ export const BankSelector: React.FC<BankSelectorProps> = ({
                       <span className="text-slate-400 dark:text-slate-500 font-normal ml-1.5 text-xs">
                         {index + 1}.
                       </span>
-                      {bank.name}
+                      {bank.name} — {bank.appName}
                     </div>
                     <div
                       dir="ltr"
