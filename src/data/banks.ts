@@ -1,6 +1,7 @@
 export interface BankConfig {
   id: string;
   name: string;
+  appName: string;
   englishName: string;
   prefix: string;
   suffix: string;
@@ -22,6 +23,7 @@ export const banks: BankConfig[] = [
   {
     id: 'bok',
     name: 'بنك الخرطوم',
+    appName: 'بنكك',
     englishName: 'Bank of Khartoum',
     prefix: '040',
     suffix: '0001',
@@ -33,6 +35,7 @@ export const banks: BankConfig[] = [
   {
     id: 'onb',
     name: 'بنك أم درمان الوطني',
+    appName: 'أوكاش',
     englishName: 'Omdurman National Bank',
     prefix: '240',
     suffix: '00001',
@@ -44,6 +47,7 @@ export const banks: BankConfig[] = [
   {
     id: 'fib',
     name: 'بنك فيصل الإسلامي',
+    appName: 'فوري',
     englishName: 'Faisal Islamic Bank',
     prefix: '02',
     suffix: '0001',
@@ -55,6 +59,7 @@ export const banks: BankConfig[] = [
   {
     id: 'bnmb',
     name: 'بنك النيل الأزرق',
+    appName: 'مشرق',
     englishName: 'Blue Nile Mashreg Bank',
     prefix: '150000',
     suffix: '',
@@ -66,6 +71,7 @@ export const banks: BankConfig[] = [
   {
     id: 'sib',
     name: 'البنك الإسلامي السوداني',
+    appName: 'أمن بلس',
     englishName: 'Sudanese Islamic Bank',
     prefix: '14000',
     suffix: '00001',
@@ -77,6 +83,7 @@ export const banks: BankConfig[] = [
   {
     id: 'fcb',
     name: 'بنك المزارع التجاري',
+    appName: 'مصرفك',
     englishName: 'Farmer Commercial Bank',
     prefix: '222',
     suffix: '',
@@ -88,6 +95,7 @@ export const banks: BankConfig[] = [
   {
     id: 'sfb',
     name: 'البنك الفرنسي السوداني',
+    appName: 'الخدمات المصرفية الرقمية',
     englishName: 'Sudanese French Bank',
     prefix: '110',
     suffix: '00001',
@@ -99,6 +107,7 @@ export const banks: BankConfig[] = [
   {
     id: 'abs',
     name: 'البنك الزراعي السوداني',
+    appName: 'الزراعي موبايل',
     englishName: 'Agricultural Bank of Sudan',
     prefix: '03',
     suffix: '01001',
@@ -110,6 +119,7 @@ export const banks: BankConfig[] = [
   {
     id: 'alsalam',
     name: 'بنك السلام السوداني',
+    appName: 'الخدمات المصرفية الرقمية',
     englishName: 'Al Salam Bank Sudan',
     prefix: '180',
     suffix: '00001',
@@ -121,6 +131,7 @@ export const banks: BankConfig[] = [
   {
     id: 'albaraka',
     name: 'بنك البركة السوداني',
+    appName: 'البركة',
     englishName: 'Al Baraka Bank Sudan',
     prefix: '070',
     suffix: '00001',
