@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
           dir="ltr"
           className="text-xs text-slate-500 dark:text-slate-500 font-medium"
         >
-          © 2026 Hayyan Mohamed
+          © 2026 Hayyan Mohammed
         </p>
 
         <button
